@@ -1,7 +1,2 @@
-﻿  Gaussian.cpp
-  Sobel.cpp
-C:\Users\igor\Desktop\Sobel-edge-detection\SobelPrototyp\SobelPrototyp\Sobel.cpp(78,17): warning C4244: "+=": konwersja z "double" do "int", możliwa utrata danych
-  SobelPrototyp.cpp
-  Utils.cpp
-  Generowanie kodu...
+﻿  SobelPrototyp.cpp
   SobelPrototyp.vcxproj -> C:\Users\igor\Desktop\Sobel-edge-detection\SobelPrototyp\x64\Debug\SobelPrototyp.exe

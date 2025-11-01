@@ -125,6 +125,7 @@
   <ItemGroup>
     <ClCompile Include="Gaussian.cpp" />
     <ClCompile Include="Grayscale.cpp" />
+    <ClCompile Include="Histogram.cpp" />
     <ClCompile Include="Sobel.cpp" />
     <ClCompile Include="SobelPrototyp.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -132,6 +133,7 @@
   <ItemGroup>
     <ClInclude Include="Grayscale.h" />
     <ClInclude Include="Gaussian.h" />
+    <ClInclude Include="Histogram.h" />
     <ClInclude Include="Sobel.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_image_write.h" />
