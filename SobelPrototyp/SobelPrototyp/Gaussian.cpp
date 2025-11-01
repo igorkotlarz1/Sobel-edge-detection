@@ -1,10 +1,5 @@
 #include "Gaussian.h"
-#include <iostream>
-
-int getIndexAt(int y, int x, int width)
-{
-	return y * width + x;
-}
+#include "Utils.h"
 
 unsigned char* applyGaussian(unsigned char* image, int width, int height)
 {
@@ -13,7 +8,7 @@ unsigned char* applyGaussian(unsigned char* image, int width, int height)
 	for (int i = 0; i < height; i++){
 		for (int j = 0; j < width; j++){
 
-			if (i == 0 || i == height || j == 0 || j == width) {
+			if (i == 0 || i == height -1 || j == 0 || j == width -1) {
 				gaussImage[getIndexAt(i, j, width)] = image[getIndexAt(i, j, width)];
 				continue;
 			}
