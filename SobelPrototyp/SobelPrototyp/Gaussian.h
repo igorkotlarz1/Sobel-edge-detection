@@ -1,7 +1,6 @@
 #ifndef GAUSSIAN_H
 #define GAUSSIAN_H
+#endif 
 
-unsigned char* applyGaussian(unsigned char* image, int width, int height);
-
-#endif // !GAUSSIAN_G
-
+#include "Utils.h"
+std::vector<BYTE> applyGaussian(const std::vector<BYTE> &image, int width, int height);

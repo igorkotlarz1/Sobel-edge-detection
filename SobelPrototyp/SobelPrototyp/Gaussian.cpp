@@ -1,14 +1,13 @@
 #include "Gaussian.h"
-#include "Utils.h"
 
-unsigned char* applyGaussian(unsigned char* image, int width, int height)
+std::vector<BYTE> applyGaussian(const std::vector<BYTE>& image, int width, int height)
 {
-	unsigned char* gaussImage = new unsigned char[height * width];
+	std::vector<BYTE> gaussImage(width * height);
 
-	for (int i = 0; i < height; i++){
-		for (int j = 0; j < width; j++){
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
 
-			if (i == 0 || i == height -1 || j == 0 || j == width -1) {
+			if (i == 0 || i == height - 1 || j == 0 || j == width - 1) {
 				gaussImage[getIndexAt(i, j, width)] = image[getIndexAt(i, j, width)];
 				continue;
 			}
@@ -27,7 +26,7 @@ unsigned char* applyGaussian(unsigned char* image, int width, int height)
 			sum += image[getIndexAt(i + 1, j + 1, width)];
 
 			sum /= 16;
-			gaussImage[getIndexAt(i, j, width)] = (unsigned char)sum;
+			gaussImage[getIndexAt(i, j, width)] = (BYTE) sum;
 		}
 	}
 	std::cout << "Applied Gaussian filter to the image" << std::endl;

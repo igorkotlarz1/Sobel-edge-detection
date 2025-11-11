@@ -1,7 +1,6 @@
 #ifndef GRAYSCALE_H
 #define GRAYSCALE_H
-
-unsigned char* toGrayscale(unsigned char* image, int width, int height);
-
 #endif 
 
+#include "Utils.h"
+std::vector<BYTE> toGrayscale(BYTE* image, int width, int height);

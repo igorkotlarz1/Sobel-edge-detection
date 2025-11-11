@@ -16,37 +16,31 @@
 
 int main()
 {
-	int width,height, channels;
 	const char* inputFile = "Data/Images/cat.jpg";
-	//const char* grayFile = "Data/Images/cat_gray.jpg";
-	//const char* gaussFile = "Data/Images/cat_gauss.jpg";
+	const char* grayFile = "Data/Images/cat_gray.jpg";
+	const char* gaussFile = "Data/Images/cat_gauss.jpg";
 	const char* sobelFile = "Data/Images/cat_sobel.jpg";
 	const char* edgesFile = "Data/Images/cat_edges.jpg";
+	std::string histFile = "Data/Histograms/histogram_cat.csv";
 
-	unsigned char* image = stbi_load(inputFile, &width, &height, &channels, 3);
+	int width,height,channels;
+	BYTE* image = stbi_load(inputFile, &width, &height, &channels, 3);
 
 	if (!image) {
 		std::cout << "Failed to load image: " << stbi_failure_reason() << std::endl;
 		return -1;
 	}	
 
-	unsigned char* grayImage = toGrayscale(image, width, height);
-	//unsigned char* gaussImage = applyGaussian(grayImage, width, height);
-	//unsigned char* sobelImage = calculateSobelMagnitude(gaussImage, width, height);
-
-	map<int, int> hist = getIntensityHist(grayImage, width, height);
-	toCSV(hist, "Data/Histograms/histogram_cat.csv");
-
-	//stbi_write_jpg(sobelFile, width, height, 1, sobelImage, 100);
-
-	//detectEdges(sobelImage, width, height, 50);
-
-	//stbi_write_jpg(edgesFile, width, height, 1, sobelImage, 100);
+	//edge detection 
+	std::vector<BYTE> grayImage = toGrayscale(image, width, height);
+	std::vector<BYTE> gaussImage = applyGaussian(grayImage, width, height);
+	std::vector<BYTE> sobelImage = calculateSobelMagnitude(gaussImage, width, height);
+	detectEdges(sobelImage, width, height, 50);
+	stbi_write_jpg(edgesFile, width, height, 1, sobelImage.data(), 100);
+	
+	//intensity histogram
+	std::map<int, int> hist = getIntensityHist(grayImage, width, height);
+	toCSV(hist, histFile);
 
 	stbi_image_free(image);
-	delete[] grayImage;
-	//delete[] gaussImage;
-	//delete[] sobelImage;
-
-
 }

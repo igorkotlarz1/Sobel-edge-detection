@@ -1,10 +1,9 @@
 #include "Sobel.h"
-#include "Utils.h"
 #include <cmath>
 
-int* applySobelGX(unsigned char* image, int width, int height)
+std::vector<int> applySobelGX(const std::vector<BYTE>& image, int width, int height)
 {
-    int* outputImage = new int[height * width];
+    std::vector<int> outputImage(height*width);
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
@@ -18,9 +17,9 @@ int* applySobelGX(unsigned char* image, int width, int height)
             //-2 0 2
             //-1 0 1
             int sum = 0;
-            sum += image[getIndexAt(i-1, j - 1, width)] * (-1);
-            sum += image[getIndexAt(i-1, j, width)] * (-2);
-            sum += image[getIndexAt(i-1, j + 1, width)] * (-1);
+            sum += image[getIndexAt(i - 1, j - 1, width)] * (-1);
+            sum += image[getIndexAt(i - 1, j, width)] * (-2);
+            sum += image[getIndexAt(i - 1, j + 1, width)] * (-1);
 
             sum += image[getIndexAt(i + 1, j - 1, width)];
             sum += image[getIndexAt(i + 1, j, width)] * 2;
@@ -32,9 +31,9 @@ int* applySobelGX(unsigned char* image, int width, int height)
     return outputImage;
 }
 
-int* applySobelGY(unsigned char* image, int width, int height)
+std::vector<int> applySobelGY(const std::vector<BYTE>& image, int width, int height)
 {
-    int* outputImage = new int[height * width];
+    std::vector<int> outputImage(height * width);
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
@@ -47,7 +46,6 @@ int* applySobelGY(unsigned char* image, int width, int height)
             // 1  2  1
             // 0  0  0
             //-1 -2 -1            
-             
             int sum = 0;
             sum += image[getIndexAt(i - 1, j - 1, width)];
             sum += image[getIndexAt(i, j - 1, width)] * 2;
@@ -55,7 +53,7 @@ int* applySobelGY(unsigned char* image, int width, int height)
 
             sum += image[getIndexAt(i - 1, j + 1, width)] * (-1);
             sum += image[getIndexAt(i, j + 1, width)] * (-2);
-            sum += image[getIndexAt(i + 1, j + 1, width)]* (-1);
+            sum += image[getIndexAt(i + 1, j + 1, width)] * (-1);
 
             outputImage[getIndexAt(i, j, width)] = sum;
         }
@@ -63,17 +61,17 @@ int* applySobelGY(unsigned char* image, int width, int height)
     return outputImage;
 }
 
-unsigned char* calculateSobelMagnitude(unsigned char* grayImage, int width, int height)
+std::vector<BYTE> calculateSobelMagnitude(const std::vector<BYTE>& image, int width, int height)
 {
-    int* sobelGX = applySobelGX(grayImage, width, height);
-    int* sobelGY = applySobelGY(grayImage, width, height);
+    std::vector<int> sobelGX = applySobelGX(image, width, height);
+    std::vector<int> sobelGY = applySobelGY(image, width, height);
 
-    unsigned char* outputImage = new unsigned char[width * height];
+    std::vector<BYTE> outputImage(height * width);
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             int sum = 0;
-            
+
             sum += pow(sobelGX[getIndexAt(i, j, width)], 2)
                 + pow(sobelGY[getIndexAt(i, j, width)], 2);
             outputImage[getIndexAt(i, j, width)] = (unsigned char)(sqrt(sum));
@@ -81,24 +79,21 @@ unsigned char* calculateSobelMagnitude(unsigned char* grayImage, int width, int 
     }
     std::cout << "Applied Sobel filters to the image" << std::endl;
 
-    //freeing up alocated memory
-    delete[] sobelGX;
-    delete[] sobelGY;
-    sobelGX = nullptr;
-    sobelGY = nullptr;
-
     return outputImage;
 }
 
-void detectEdges(unsigned char* image, int width, int height, short threshold)
+void detectEdges(std::vector<BYTE>& image, int width, int height, short threshold)
 {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
+    int size = width * height;
+    
+    for(int i = 0; i < size; i++) {
+        //image[i] >= threshold ?
+         //   image[i] = 255 : image[i] = 0;
+		image[i] = (image[i] >= threshold) ? 255 : 0;
+	}
 
-            image[getIndexAt(i, j, width)] >= threshold ?
-                image[getIndexAt(i, j, width)] = 255 : image[getIndexAt(i, j, width)] = 0;
-        }
-    }
     std::cout << "Applied binary thresholding to detect the edges with threshold value: " << threshold
-        << std::endl;
+		<< std::endl;
 }
+
+

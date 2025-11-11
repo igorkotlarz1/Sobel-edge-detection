@@ -1,10 +1,13 @@
 #ifndef SOBEL_H
 #define SOBEL_H
+#endif 
 
-int* applySobelGX(unsigned char* image, int width, int height);
-int* applySobelGY(unsigned char* image, int width, int height);
-unsigned char* calculateSobelMagnitude(unsigned char* grayImage, int width, int height);
-void detectEdges(unsigned char* image, int width, int height, short threshold);
+#include "Utils.h"
 
-#endif // !SOBEL_H
+std::vector<int> applySobelGX(const std::vector<BYTE>& image, int width, int height);
+std::vector<int> applySobelGY(const std::vector<BYTE>& image, int width, int height);
+std::vector<BYTE> calculateSobelMagnitude(const std::vector<BYTE>& image, int width, int height);
+void detectEdges(std::vector<BYTE>& image, int width, int height, short threshold);
+
+
 

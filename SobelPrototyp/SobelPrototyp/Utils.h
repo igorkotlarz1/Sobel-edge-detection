@@ -1,8 +1,9 @@
 #ifndef UTILS_H
 #define UTILS_H
-#include <iostream>
-
-int getIndexAt(int row, int col, int width);
-
 #endif // !UTILS_H
 
+#include <iostream>
+#include <vector>
+using BYTE = unsigned char;
+
+int getIndexAt(int row, int col, int width);
