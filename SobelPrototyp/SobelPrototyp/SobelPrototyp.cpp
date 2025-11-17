@@ -31,16 +31,34 @@ int main()
 		return -1;
 	}	
 
-	//edge detection 
+	//sequential version
+	auto start = std::chrono::high_resolution_clock::now();
+
 	std::vector<BYTE> grayImage = toGrayscale(image, width, height);
-	std::vector<BYTE> gaussImage = applyGaussian(grayImage, width, height);
+
+	auto end = std::chrono::high_resolution_clock::now();
+	std::cout << "Elapsed time normal: " <<
+		std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms.\n";
+
+	//parallel version
+	start = std::chrono::high_resolution_clock::now();
+	int threads = std::thread::hardware_concurrency();
+
+	std::vector<BYTE> grayImageParallel = toGrayscaleParallel(image, width, height, threads);
+
+	end = std::chrono::high_resolution_clock::now();
+	std::cout << "Elapsed time parallel: " << 
+		std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << " ms (" <<threads<<" threads)\n";
+
+	/*std::vector<BYTE> gaussImage = applyGaussian(grayImage, width, height);
 	std::vector<BYTE> sobelImage = calculateSobelMagnitude(gaussImage, width, height);
-	detectEdges(sobelImage, width, height, 50);
-	stbi_write_jpg(edgesFile, width, height, 1, sobelImage.data(), 100);
-	
+	detectEdges(sobelImage, width, height, 50);*/
+
+	//stbi_write_jpg(edgesFile, width, height, 1, sobelImage.data(), 100);
+
 	//intensity histogram
-	std::map<int, int> hist = getIntensityHist(grayImage, width, height);
-	toCSV(hist, histFile);
+	//std::map<int, int> hist = getIntensityHist(grayImage, width, height);
+	//toCSV(hist, histFile);
 
 	stbi_image_free(image);
 }

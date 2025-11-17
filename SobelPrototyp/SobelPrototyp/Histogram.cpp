@@ -23,6 +23,6 @@ void toCSV(std::map<int, int>& intensityDict, const std::string& filePath)
 		file << i << "," << intensityDict[i] << "\n";
 
 	file.close();
-	std::cout << "Saved hist data to " << filePath << std::endl;
+	//std::cout << "Saved hist data to " << filePath << std::endl;
 	
 }
